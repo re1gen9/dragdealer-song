@@ -41,20 +41,20 @@ export function checkVebatDecisionValid(vebatDecisionValue) {
 export function checkMoneyExistenceValid(moneyNotExistenceValue) {
     if(!moneyNotExistenceValue[0]) {
         console.log('3) Раз ты про деньги даже ничего не написал значит у тебя их точно нет, соболезную\n')
-        return true
+        return false
     }
     if(moneyNotExistenceValue.length > 1) {
         console.log(moneyNotExistenceValue, `\n3) Про деньги нужно вписать ОДНИМ словом либо 'ДА' либо 'НЕТ', чё ты здесь эссе выкатываешь.\nЧелы с деньгами словами не бросаются, выходит у тебя их нет\n`)
-        return true
+        return false
     }
     if(moneyNotExistenceValue[0].toLowerCase() !== 'да' && moneyNotExistenceValue[0].toLowerCase() !== 'нет') {
         console.log(moneyNotExistenceValue, `\n3) Про деньги впиши либо 'ДА' либо 'НЕТ'.\nНа самом деле здесь даже регистр не важен, но без способности нормально вводить текст ты точно денег не имеешь\n`)
-        return true
-    }
-    if(moneyNotExistenceValue[0] === 'нет') {
         return false
     }
-    return false
+    if(moneyNotExistenceValue[0] === 'нет') {
+        return true
+    }
+    return true
 }
 
 export function checkMeetingTimeValid(meetingTimeDecisionValue) {

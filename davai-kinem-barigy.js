@@ -1,45 +1,54 @@
-import {checkHeardPolkiloValid, checkVebatDecisionValid, checkMoneyExistenceValid, checkMeetingTimeValid, checkSwearingAccessValid} from "./properties-validation.js"
+import inquirer from 'inquirer'
+import {checkHeardPolkiloStatus, checkVebatDecisionStatus, checkMoneyExistenceStatus, checkSwearingAccessStatus} from "./properties-status.js"
 import {resultSongLirycs} from "./song-lirycs-logs.js"
 import {MEETING_TIME_OPTION} from "./config.js"
-const [,, ...args] = process.argv
 
-function getUserProperty(decisionStartSymbol, inputArgs) {
-    const resultDecisionValue = []
-    for(let i = 0; i < inputArgs.length; i++) {
-        if(inputArgs[i] === decisionStartSymbol) {
-            while(i + 1 < inputArgs.length && !inputArgs[i + 1].startsWith('-')) {
-                resultDecisionValue.push(inputArgs[i + 1])
-                i++
-            }
+async function main() { 
+    const heardPolkiloMoment = await inquirer.prompt([
+        {
+          type: 'list',
+          name: 'framework',
+          message: 'Слышал про полкило?',
+          choices: ['Да', 'Нет'],
         }
-    }
-    return resultDecisionValue
-}
+      ])
 
-function main() {
-    console.log('\n')
+    const vebatDecision = await inquirer.prompt([
+        {
+          type: 'list',
+          name: 'framework',
+          message: 'Хочешь въебать барыгу?',
+          choices: ['Да', 'Нет'],
+        }
+      ])
 
-    if(!args) {
-        console.log('Ты решил вообще ничего не делать и никого не въёбывать. Респект')
-        retrun
-    }
+    const moneyExistence = await inquirer.prompt([
+        {
+          type: 'list',
+          name: 'framework',
+          message: 'У тебя много денег?',
+          choices: ['Да', 'Нет'],
+        }
+      ])
 
-    const heardPolkiloMoment = getUserProperty('-1', args)
-    const heardPolkiloMomentStatus = checkHeardPolkiloValid(heardPolkiloMoment)
+    const meetingTime = await inquirer.prompt([
+        {
+          type: 'list',
+          name: 'framework',
+          message: 'На сколько назначишь встречу с барыгой?',
+          choices: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+        }
+      ])
 
-    const vebatDecision = getUserProperty('-2', args)
-    const vebatDecisionStatus = checkVebatDecisionValid(vebatDecision)
-
-    const moneyNotExistence = getUserProperty('-3', args)
-    const moneyNotExistenceStatus = checkMoneyExistenceValid(moneyNotExistence)
-
-    const meetingTime = getUserProperty('-4', args)
-    const meetingTimeStatus = checkMeetingTimeValid(meetingTime)
-
-    const swearingAccess = getUserProperty('-5', args)
-    const swearingAccessStatus = checkSwearingAccessValid(swearingAccess)
-    
-    resultSongLirycs(heardPolkiloMomentStatus, vebatDecisionStatus, moneyNotExistenceStatus, meetingTimeStatus, swearingAccessStatus, MEETING_TIME_OPTION)
+    const swearingAccess = await inquirer.prompt([
+        {
+          type: 'list',
+          name: 'framework',
+          message: 'Можешь общаться матом?',
+          choices: ['Да', 'Нет'],
+        }
+      ])
+    resultSongLirycs(checkHeardPolkiloStatus(heardPolkiloMoment), checkVebatDecisionStatus(vebatDecision), checkMoneyExistenceStatus(moneyExistence), meetingTime, checkSwearingAccessStatus(swearingAccess), MEETING_TIME_OPTION)
 }
 
 main()
